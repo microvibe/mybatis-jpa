@@ -5,7 +5,7 @@
 <!-- 在spring-mybatis配置文件中,增加以下配置即可.详见configs/spring-mybatis.xml -->
 <!-- Mybatis JPA Mapper 所在包路径 -->
     <bean class="com.mybatis.jpa.core.MapperEnhancerScaner">
-        <property name="basePackage" value="com.ybg.mapper" />
+        <property name="basePackage" value="com.svili.mapper" />
         <property name="sqlSessionFactory" ref="sqlSessionFactory" />
     </bean>
 ```
@@ -56,11 +56,11 @@ public interface UserMapper extends MybatisBaseMapper<User> {
     /*more condition or complex SQL,need yourself build*/
     
     /**注意,此方法的resultMap是jpa自动生成的UserResultMap*/
-    @Select("select * from ybg_test_user where user_name = #{userName} and dept_id = #{deptId}")
+    @Select("select * from user where user_name = #{userName} and dept_id = #{deptId}")
     @ResultMap(value="UserResultMap") 
     List<User> selectComplex(Map<String, Object> args); /*build with mapper.xml*/ List<User> selectComplex2(Map<String, Object> args);
 ```
-## 示例代码说明
+## 2. 示例代码说明
 测试代码在test目录</br>
 /test/resource 包含了spring + spring mvc + mybaits + jpa 的配置文件样例;<br>
 测试代码默认数据库为mysql,如需切换oracle,请在pom.xml中加入oracle ojdbc14依赖;
