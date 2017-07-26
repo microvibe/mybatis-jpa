@@ -91,6 +91,10 @@
 			<version>${spring.version}</version>
 		</dependency>
 
+		<!-- oracle ojdbc14 请自行解决 -->
+		<!-- <dependency> <groupId>com.oracle</groupId> <artifactId>ojdbc14</artifactId> 
+			<version>10.2.0.4.0</version> </dependency> -->
+
 		<dependency>
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis</artifactId>

@@ -21,8 +21,6 @@
 		<property name="initialSize" value="${initialSize}"></property>
 		<!-- 连接池最大数量 -->
 		<property name="maxActive" value="${maxActive}"></property>
-		<!-- 连接池最大空闲 -->
-		<!-- <property name="maxIdle" value="${maxIdle}"></property> -->
 		<!-- 连接池最小空闲 -->
 		<property name="minIdle" value="${minIdle}"></property>
 		<!-- 获取连接最大等待时间 -->

@@ -35,6 +35,6 @@
 	</bean>
 
 	<!-- mybatis配置文件 -->
-	<import resource="spring-mybatis.xml" />
+	<import resource="configs/spring-mybatis.xml" />
 
 </beans>  
