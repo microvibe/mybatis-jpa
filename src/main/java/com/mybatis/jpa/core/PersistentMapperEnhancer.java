@@ -18,6 +18,7 @@ import org.apache.ibatis.type.TypeHandler;
 
 import com.mybatis.jpa.annotation.MapperDefinition;
 import com.mybatis.jpa.annotation.StatementDefinition;
+import com.mybatis.jpa.common.AssociationUtil;
 import com.mybatis.jpa.common.PersistentUtil;
 import com.mybatis.jpa.meta.MybatisColumnMeta;
 import com.mybatis.jpa.meta.PersistentMeta;
@@ -137,14 +138,15 @@ public class PersistentMapperEnhancer extends BaseBuilder {
 
 			List<ResultMapping> resultMappings = new ArrayList<>(fields.size() + 1);
 
+			// 持久化字段
 			for (MybatisColumnMeta columnMeta : persistentMeta.getColumnMetaMap().values()) {
 				// java 字段名
 				String property = columnMeta.getProperty();
 				// sql 列名
 				String column = columnMeta.getColumnName();
-				Class<?> javaTypeClass = columnMeta.getType();
+				Class<?> javaType = columnMeta.getType();
 
-				JdbcType jdbcTypeEnum = columnMeta.getJdbcType();
+				JdbcType jdbcType = columnMeta.getJdbcType();
 
 				String nestedSelect = null;
 				String nestedResultMap = null;
@@ -159,10 +161,43 @@ public class PersistentMapperEnhancer extends BaseBuilder {
 				// enum
 				Class<? extends TypeHandler<?>> typeHandlerClass = columnMeta.getTypeHandlerClass();
 
-				ResultMapping resultMapping = assistant.buildResultMapping(resultType, property, column, javaTypeClass,
-						jdbcTypeEnum, nestedSelect, nestedResultMap, notNullColumn, columnPrefix, typeHandlerClass,
+				ResultMapping resultMapping = assistant.buildResultMapping(resultType, property, column, javaType,
+						jdbcType, nestedSelect, nestedResultMap, notNullColumn, columnPrefix, typeHandlerClass,
 						flags, resultSet, foreignColumn, lazy);
 				resultMappings.add(resultMapping);
+			}
+
+			// 关联性字段
+			List<Field> associationFields = AssociationUtil.getAssociationFields(resultType);
+			if (!associationFields.isEmpty()) {
+				for (Field field : associationFields) {
+					// java 字段名
+					String property = field.getName();
+					// 关联字段 mappedBy
+					String column = AssociationUtil.getMappedName(field);
+					Class<?> javaType = AssociationUtil.getTargetType(field);
+
+					JdbcType jdbcType = null;
+
+					String nestedSelect = null;
+					String nestedResultMap = "com.ybg.mapper." + javaType.getSimpleName() + "Mapper."
+							+ javaType.getSimpleName() + "ResultMap";
+					String notNullColumn = null;
+					String columnPrefix = null;
+					String resultSet = null;
+					String foreignColumn = null;
+					// if primaryKey flags.add(ResultFlag.ID);
+					List<ResultFlag> flags = new ArrayList<>();
+					// lazy or eager
+					boolean lazy = false;
+					// enum
+					Class<? extends TypeHandler<?>> typeHandlerClass = null;
+
+					ResultMapping resultMapping = assistant.buildResultMapping(resultType, property, column,
+							javaType, jdbcType, nestedSelect, nestedResultMap, notNullColumn, columnPrefix,
+							typeHandlerClass, flags, resultSet, foreignColumn, lazy);
+					resultMappings.add(resultMapping);
+				}
 			}
 
 			ResultMapResolver resultMapResolver = new ResultMapResolver(assistant, id, resultType, extend,

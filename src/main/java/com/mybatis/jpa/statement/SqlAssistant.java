@@ -34,7 +34,7 @@ public class SqlAssistant {
 		// 首字母小写
 		String fieldName = StringUtils.uncapitalize(expression.replace(operate.getAlias(), ""));
 		MybatisColumnMeta columnMeta;
-		if (fieldName.equals("primaryKey")) {
+		if (fieldName.equals("id")) {
 			columnMeta = persistentMeta.getPrimaryColumnMeta();
 		} else {
 			columnMeta = persistentMeta.getColumnMetaMap().get(fieldName);
@@ -102,7 +102,17 @@ public class SqlAssistant {
 
 	/** 装配sql中动态参数的占位符 #{paramterName,jdbcType=,typeHandler=} */
 	public final static String resolveSqlParameter(MybatisColumnMeta columnMeta) {
-		String sqlParameter = "#{" + columnMeta.getProperty();
+
+		return resolveSqlParameter(columnMeta, "");
+	}
+
+	/** 装配sql中动态参数的占位符 #{alias.paramterName,jdbcType=,typeHandler=} */
+	public final static String resolveSqlParameter(MybatisColumnMeta columnMeta, String alias) {
+		String sqlParameter = "#{";
+		if (alias != null && !"".equals(alias)) {
+			sqlParameter += alias + ".";
+		}
+		sqlParameter += columnMeta.getProperty();
 
 		// jdbcType
 		if (columnMeta.getJdbcTypeAlias() != null) {
