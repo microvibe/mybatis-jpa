@@ -41,7 +41,7 @@ public class SelectBuilder implements StatementBuildable {
 		adapter.setSqlScript(buildSQL(persistentMeta, method) + orderBy);
 		// 返回值类型
 		adapter.setResultType(persistentMeta.getType());
-		adapter.setResultMapId(persistentMeta.getType().getSimpleName() + "ResultMap");
+		adapter.setResultMapId("jpa.ResultMap." + persistentMeta.getType().getSimpleName());
 
 		adapter.setSqlCommandType(SqlCommandType.SELECT);
 

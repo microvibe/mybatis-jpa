@@ -25,7 +25,7 @@ public class UpdateTest extends AbstractTest {
 		user.setPassword("updateSelectiveByPrimaryKey");
 		user.setState(DataStateEnum.UNEFFECT);
 		user.setCreateTime(new java.util.Date());
-		userMapper.updateSelectiveByPrimaryKey(user);
+		userMapper.updateSelectiveById(user);
 	}
 
 	// @Test
@@ -34,7 +34,7 @@ public class UpdateTest extends AbstractTest {
 		user.setUserId(1);
 		user.setDeptId(11);
 		user.setUserName("svili_1");
-		userMapper.updateByPrimaryKey(user);
+		userMapper.updateById(user);
 	}
 
 	//@Test

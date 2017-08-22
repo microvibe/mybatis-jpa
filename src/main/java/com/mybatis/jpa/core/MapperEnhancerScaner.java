@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
 
+import javax.persistence.Entity;
+
 import org.apache.ibatis.builder.IncompleteElementException;
 import org.apache.ibatis.builder.annotation.MethodResolver;
 import org.apache.ibatis.session.Configuration;
@@ -31,12 +33,19 @@ public class MapperEnhancerScaner implements ApplicationListener<ApplicationEven
 	/** 初始化参数:mapper package base place */
 	private String basePackage;
 
+	/** 初始化参数:entity package base place */
+	private String entityPackage;
+
 	/** 初始化参数:sqlSessionFactory */
 	private SqlSessionFactory sqlSessionFactory;
 
 	// setter
 	public void setBasePackage(String basePackage) {
 		this.basePackage = basePackage;
+	}
+
+	public void setEntityPackage(String entityPackage) {
+		this.entityPackage = entityPackage;
 	}
 
 	public void setSqlSessionFactory(SqlSessionFactory sqlSessionFactory) {
@@ -57,6 +66,26 @@ public class MapperEnhancerScaner implements ApplicationListener<ApplicationEven
 		// mybatis configuration
 		Configuration configuration = this.sqlSessionFactory.getConfiguration();
 
+		/** scan entity **/
+		TypeFilter entityFilter = AnnotationTypeFilterBuilder.build(Entity.class);
+		SpringClassScanner entityScanner = new SpringClassScanner.Builder().scanPackage(this.entityPackage)
+				.typeFilter(entityFilter).build();
+		Set<Class<?>> entitySet = null;
+		try {
+			entitySet = entityScanner.scan();
+		} catch (ClassNotFoundException | IOException e) {
+			// log or throw runTimeExp
+			throw new RuntimeException(e);
+		}
+		if (entitySet != null && !entitySet.isEmpty()) {
+			for (Class<?> entity : entitySet) {
+				// resultMap enhance
+				PersistentResultMapEnhancer resultMapEnhancer = new PersistentResultMapEnhancer(configuration, entity);
+				resultMapEnhancer.enhance();
+			}
+			// parsePendingMethods(configuration);
+		}
+
 		/** scan **/
 		TypeFilter typeFilter = AnnotationTypeFilterBuilder.build(MapperDefinition.class);
 		SpringClassScanner scanner = new SpringClassScanner.Builder().scanPackage(this.basePackage)
@@ -66,7 +95,7 @@ public class MapperEnhancerScaner implements ApplicationListener<ApplicationEven
 			mapperSet = scanner.scan();
 		} catch (ClassNotFoundException | IOException e) {
 			// log or throw runTimeExp
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 		if (mapperSet != null && !mapperSet.isEmpty()) {
 			for (Class<?> mapper : mapperSet) {

@@ -18,7 +18,7 @@ public class SelectTest extends AbstractTest {
 
 	@Test
 	public void selectByPrimaryKey() {
-		User user = userMapper.selectByPrimaryKey(1);
+		User user = userMapper.selectById(1);
 		if (user != null)
 			System.out.println(user.toString());
 	}

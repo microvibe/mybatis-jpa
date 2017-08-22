@@ -45,6 +45,7 @@
 	<!-- Mybatis JPA Mapper 所在包路径 -->
 	<bean class="com.mybatis.jpa.core.MapperEnhancerScaner">
 		<property name="basePackage" value="com.svili.mapper" />
+		<property name="entityPackage" value="com.svili.model" />
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</bean>
 

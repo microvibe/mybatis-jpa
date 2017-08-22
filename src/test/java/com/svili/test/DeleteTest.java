@@ -13,7 +13,7 @@ public class DeleteTest extends AbstractTest {
 
 	//@Test
 	public void delete() {
-		userMapper.deleteByPrimaryKey(2);
+		userMapper.deleteById(2);
 	}
 	
 	@Test

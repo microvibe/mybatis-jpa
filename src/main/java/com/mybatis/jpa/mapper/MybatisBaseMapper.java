@@ -26,28 +26,28 @@ import com.mybatis.jpa.annotation.StatementDefinition;
 public interface MybatisBaseMapper<T> {
 
 	@StatementDefinition
-	int insertSelective(T t);
+	int insertSelective(T entity);
 
 	@StatementDefinition
-	int insert(T t);
+	int insert(T entity);
 
 	// @StatementDefinition
 	int batchInsert(List<T> list);
 
 	@StatementDefinition
-	int deleteByPrimaryKey(Object primaryValue);
+	int deleteById(Object primaryValue);
 
 	@StatementDefinition
-	int updateByPrimaryKey(T t);
+	int updateById(T entity);
 
 	@StatementDefinition
-	int updateSelectiveByPrimaryKey(T t);
+	int updateSelectiveById(T entity);
 
 	// @StatementDefinition
-	int batchUpdate(T t);
+	int batchUpdate(T entity);
 
 	@StatementDefinition
-	T selectByPrimaryKey(Object primaryValue);
+	T selectById(Object primaryValue);
 
 	@StatementDefinition
 	List<T> select();

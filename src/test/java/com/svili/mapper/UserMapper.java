@@ -19,8 +19,8 @@ import com.svili.model.User;
  * @data 2017年5月8日
  *
  */
-@Repository
-@MapperDefinition(domainClass = User.class)
+//@Repository
+//@MapperDefinition(domainClass = User.class)
 public interface UserMapper extends MybatisBaseMapper<User> {
 
 	@StatementDefinition
