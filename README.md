@@ -43,6 +43,8 @@ public class User {
 /*entends MybatisBaseMapper非必须,它只是定义了公共的方法签名,便于风格的统一*/
 public interface UserMapper extends MybatisBaseMapper<User> {
 
+	String resultMap = ResultMapConstants.DEFAULT_NAMESPACE + ".User";
+
     /* Like 的通配符需要自行添加 */
     @StatementDefinition
     List<User> selectByUserNameLike(String userName);
@@ -57,7 +59,7 @@ public interface UserMapper extends MybatisBaseMapper<User> {
     
     /**注意,此方法的resultMap是jpa自动生成的UserResultMap*/
     @Select("select * from user where user_name = #{userName} and dept_id = #{deptId}")
-    @ResultMap(value="UserResultMap") 
+    @ResultMap(resultMap) 
     List<User> selectComplex(Map<String, Object> args); /*build with mapper.xml*/ List<User> selectComplex2(Map<String, Object> args);
 ```
 ## 2. 示例代码说明

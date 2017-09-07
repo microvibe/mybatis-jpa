@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -56,10 +57,24 @@ public class PersistentUtil {
 			return ColumnNameUtil.camelToUnderline(className);
 		}
 	}
+	
+	public static String getEntityName(Class<?> type) {
+//		if (!type.isAnnotationPresent(Entity.class)) {
+//			throw new RuntimeException("Not found annotation with Entity in Type." + type.getName());
+//		}
+		if (type.isAnnotationPresent(Entity.class)) {
+			// 获取注解对象
+			Entity entity = type.getAnnotation(Entity.class);
+			// 设置了mappedBy()属性
+			if (!entity.name().trim().equals("")) {
+				return entity.name();
+			}
+		}
+		return type.getSimpleName();
+	}
 
 	/**
 	 * 获取列名</br>
-	 * 为适应ORACLE 返回的列名为大写,此处统一将列名设置为大写.</br>
 	 * 注解优先，javax.persistence.Column name属性值。</br>
 	 * 无注解,将字段名转为字符串,默认下划线风格.</br>
 	 * 
@@ -79,7 +94,7 @@ public class PersistentUtil {
 		if (!CAMEL_TO_UNDERLINE) {
 			return field.getName();
 		} else {
-			return ColumnNameUtil.camelToUnderline(field.getName()).toUpperCase();
+			return ColumnNameUtil.camelToUnderline(field.getName());
 		}
 	}
 

@@ -19,6 +19,7 @@ import org.apache.ibatis.type.TypeHandler;
 
 import com.mybatis.jpa.common.AssociationUtil;
 import com.mybatis.jpa.common.PersistentUtil;
+import com.mybatis.jpa.constant.ResultMapConstants;
 import com.mybatis.jpa.meta.MybatisColumnMeta;
 import com.mybatis.jpa.meta.PersistentMeta;
 
@@ -50,8 +51,7 @@ public class PersistentResultMapEnhancer extends BaseBuilder {
 	public PersistentResultMapEnhancer(Configuration configuration, Class<?> type) {
 		super(configuration);
 
-		this.namespace = "jpa.ResultMap";
-		String resource = namespace.replaceAll(".", "/") + ".java (best guess)";
+		String resource = ResultMapConstants.DEFAULT_NAMESPACE.replaceAll(".", "/") + ".java (best guess)";
 		this.assistant = new MapperBuilderAssistant(configuration, resource);
 
 		this.type = type;
@@ -59,21 +59,19 @@ public class PersistentResultMapEnhancer extends BaseBuilder {
 	}
 
 	public void enhance() {
-		String resource = "interface " + namespace;
+		String resource = "interface " + ResultMapConstants.DEFAULT_NAMESPACE;
 		if (!configuration.isResourceLoaded(resource)) {
 			configuration.addLoadedResource(resource);
 		}
-		assistant.setCurrentNamespace(namespace);
+		assistant.setCurrentNamespace(ResultMapConstants.DEFAULT_NAMESPACE);
 
 		if (!type.isAnnotationPresent(Entity.class)) {
 			return;
 		}
 
 		// build and register ResultMap;
-		String resultMap = type.getSimpleName();
-		if (!configuration.getResultMapNames().contains(resultMap)) {
-			ResultMapAdapter.parseResultMap(assistant, persistentMeta);
-		}
+		ResultMapAdapter.parseResultMap(assistant, persistentMeta);
+
 	}
 
 	/** resultMap adapter */
@@ -81,8 +79,12 @@ public class PersistentResultMapEnhancer extends BaseBuilder {
 
 		static void parseResultMap(MapperBuilderAssistant assistant, PersistentMeta persistentMeta) {
 			Class<?> resultType = persistentMeta.getType();
+			String id = persistentMeta.getEntityName();
 
-			String id = resultType.getSimpleName();
+			if (assistant.getConfiguration().getResultMapNames().contains(id)) {
+				return;
+			}
+
 			String extend = null;
 			// 是否自动映射
 			Boolean autoMapping = false;
@@ -134,7 +136,8 @@ public class PersistentResultMapEnhancer extends BaseBuilder {
 					JdbcType jdbcType = null;
 
 					String nestedSelect = null;
-					String nestedResultMap = assistant.getCurrentNamespace() + "." + javaType.getSimpleName();
+					String nestedResultMap = assistant.getCurrentNamespace() + "."
+							+ PersistentUtil.getEntityName(javaType);
 					String notNullColumn = null;
 					String columnPrefix = null;
 					String resultSet = null;

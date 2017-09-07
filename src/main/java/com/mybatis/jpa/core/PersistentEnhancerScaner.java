@@ -28,10 +28,10 @@ import com.mybatis.jpa.common.scanner.SpringClassScanner;
  * @data 2017年5月8日
  *
  */
-public class MapperEnhancerScaner implements ApplicationListener<ApplicationEvent> {
+public class PersistentEnhancerScaner implements ApplicationListener<ApplicationEvent> {
 
 	/** 初始化参数:mapper package base place */
-	private String basePackage;
+	private String mapperPackage;
 
 	/** 初始化参数:entity package base place */
 	private String entityPackage;
@@ -40,8 +40,8 @@ public class MapperEnhancerScaner implements ApplicationListener<ApplicationEven
 	private SqlSessionFactory sqlSessionFactory;
 
 	// setter
-	public void setBasePackage(String basePackage) {
-		this.basePackage = basePackage;
+	public void setMapperPackage(String mapperPackage) {
+		this.mapperPackage = mapperPackage;
 	}
 
 	public void setEntityPackage(String entityPackage) {
@@ -88,7 +88,7 @@ public class MapperEnhancerScaner implements ApplicationListener<ApplicationEven
 
 		/** scan **/
 		TypeFilter typeFilter = AnnotationTypeFilterBuilder.build(MapperDefinition.class);
-		SpringClassScanner scanner = new SpringClassScanner.Builder().scanPackage(this.basePackage)
+		SpringClassScanner scanner = new SpringClassScanner.Builder().scanPackage(this.mapperPackage)
 				.typeFilter(typeFilter).build();
 		Set<Class<?>> mapperSet = null;
 		try {
