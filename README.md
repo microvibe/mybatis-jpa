@@ -1,4 +1,4 @@
-# mybatis-jpa
+# mybatis-jpa V1.1
 ## 1. mybatis-jpa 集成方式
 ### 1.1 配置文件
 ```xml
@@ -57,22 +57,22 @@ public interface UserMapper extends MybatisBaseMapper<User> {
     /*more condition or complex SQL,need yourself build*/
     
     /**注意,此方法的resultMap是由jpa创建的*/
-    @Select("select * from user where user_name = #{userName} and dept_id = #{deptId}")
+    @Select("select * from user where user_name = #{userName} and password_alias = #{password}")
     @ResultMap(resultMap) 
     List<User> selectComplex(Map<String, Object> args); 
     
     /*build with mapper.xml*/ 
     List<User> selectComplex2(Map<String, Object> args);
 ```
-
+### 1.4 mapper.xml示例
 ```xml
-
-	<mapper namespace="com.svili.mapper.UserMapper">
+<!--  复杂的SQL建议写在xml文件中.  -->
+<mapper namespace="com.svili.mapper.UserMapper">
 	<resultMap id="BaseResultMap" type="com.svili.model.User">
 		<id column="user_id" property="userId" />
 		<result column="password_alias" property="password" />
 		<result column="state" property="state" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler" />
-		<result column="CREATE_TIME" property="createTime" />
+		<result column="create_time" property="createTime" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		USER_ID,  PASSWORD_ALIAS, STATE, CREATE_TIME
@@ -81,8 +81,10 @@ public interface UserMapper extends MybatisBaseMapper<User> {
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM user
-		WHERE user_name = #{userName}
+		WHERE user_name = #{userName} and password = #{password}
 	</select>
 
 </mapper>
 ```
+### 联系方式
+QQ交流群:246912326
