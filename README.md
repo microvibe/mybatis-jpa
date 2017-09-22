@@ -1,4 +1,4 @@
-# mybatis-jpa
+# mybatis-jpa V1.0
 ## 1. mybatis-jpa 集成方式
 ### 1.1 配置文件
 ```xml
@@ -64,3 +64,6 @@ public interface UserMapper extends MybatisBaseMapper<User> {
 测试代码在test目录</br>
 /test/resource 包含了spring + spring mvc + mybaits + jpa 的配置文件样例;<br>
 测试代码默认数据库为mysql,如需切换oracle,请在pom.xml中加入oracle ojdbc14依赖;
+
+### 联系方式
+QQ交流群:246912326
