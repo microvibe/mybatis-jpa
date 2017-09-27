@@ -112,19 +112,20 @@ public class MybatisColumnMeta {
 
 		@SuppressWarnings("unchecked")
 		public static Class<? extends TypeHandler<?>> resolveTypeHandler(Field field) {
-			Class<? extends TypeHandler<?>> typeHandlerClass = null;
+
 			if (field.getType().isEnum()) {
-				typeHandlerClass = (Class<? extends TypeHandler<?>>) EnumTypeHandler.class;
 				if (field.isAnnotationPresent(Enumerated.class)) {
 					// 获取注解对象
 					Enumerated enumerated = field.getAnnotation(Enumerated.class);
 					// 设置了value属性
 					if (enumerated.value() == EnumType.ORDINAL) {
-						typeHandlerClass = (Class<? extends TypeHandler<?>>) EnumOrdinalTypeHandler.class;
+						return (Class<? extends TypeHandler<?>>) EnumOrdinalTypeHandler.class;
 					}
 				}
+				return (Class<? extends TypeHandler<?>>) EnumTypeHandler.class;
 			}
 
+			Class<? extends TypeHandler<?>> typeHandlerClass = null;
 			if (field.getType().equals(Boolean.class)) {
 				typeHandlerClass = (Class<? extends TypeHandler<?>>) BooleanTypeHandler.class;
 			}

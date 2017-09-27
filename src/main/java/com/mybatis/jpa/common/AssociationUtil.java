@@ -36,7 +36,7 @@ public class AssociationUtil {
 				return one.mappedBy();
 			}
 		}
-		return "";
+		return null;
 	}
 
 	/**

@@ -23,6 +23,9 @@ public class PersistentMeta {
 	/** 表名 */
 	private String tableName;
 
+	/** {@link javax.persistence.Entity} */
+	private String entityName;
+
 	// private String primaryKey;
 
 	/** 主键column元数据 */
@@ -43,6 +46,7 @@ public class PersistentMeta {
 
 	private void persistence() {
 		tableName = PersistentUtil.getTableName(type);
+		entityName = PersistentUtil.getEntityName(type);
 		primaryColumnMeta = new MybatisColumnMeta(PersistentUtil.getPrimaryField(type));
 
 		// 持久化字段集
@@ -62,12 +66,17 @@ public class PersistentMeta {
 	}
 
 	// getter
+
 	public Class<?> getType() {
 		return type;
 	}
 
 	public String getTableName() {
 		return tableName;
+	}
+
+	public String getEntityName() {
+		return entityName;
 	}
 
 	public MybatisColumnMeta getPrimaryColumnMeta() {
