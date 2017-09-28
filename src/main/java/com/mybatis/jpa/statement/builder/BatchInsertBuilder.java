@@ -25,7 +25,7 @@ public class BatchInsertBuilder implements StatementBuildable {
 
 		return "<script>" + " INSERT INTO " + persistentMeta.getTableName() + " (" + persistentMeta.getColumnNames()
 				+ " ) " + " VALUES " + "<foreach item='rowData' index='rowIndex' collection='list' separator=','>"
-				+ "( " + values.toString() + " )" + "</foreach>" + values + "</script>";
+				+ "( " + values.toString() + " )" + "</foreach>" + "</script>";
 	}
 
 	@Override
