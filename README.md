@@ -1,5 +1,5 @@
-# mybatis-jpa V1.1
-## 1. mybatis-jpa 集成方式
+# mybatis-jpa v1.1.0
+## 集成方式
 ### maven dependency
 ```xml
 <dependency>
@@ -8,7 +8,7 @@
 	<version>1.1.0</version>
 </dependency>
 ```
-### 1.1 配置文件
+### spring 配置文件
 ```xml
 <!-- 在spring-mybatis配置文件中,增加以下配置即可.详见configs/spring-mybatis.xml -->
 <!-- Mybatis JPA Mapper 所在包路径 -->
@@ -18,7 +18,7 @@
         <property name="sqlSessionFactory" ref="sqlSessionFactory" />
     </bean>
 ```
-### 1.2 Entity示例
+### Entity示例
 ```Java
 @Entity
 /* {@Table}非必须,若无此注解,或其name="",将类名解析为下划线风格 做为表名 */
@@ -43,7 +43,7 @@ public class User {
 
     private java.util.Date createTime;
 ```
-### 1.3 mapper示例
+### mapper示例
 ```Java
 @Repository
 @MapperDefinition(domainClass = User.class)
@@ -72,7 +72,7 @@ public interface UserMapper extends MybatisBaseMapper<User> {
     /*build with mapper.xml*/ 
     List<User> selectComplex2(Map<String, Object> args);
 ```
-### 1.4 mapper.xml示例
+### mapper.xml示例
 ```xml
 <!--  复杂的SQL建议写在xml文件中.  -->
 <mapper namespace="com.svili.mapper.UserMapper">
