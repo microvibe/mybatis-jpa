@@ -119,10 +119,17 @@ public class MybatisColumnMeta {
 					Enumerated enumerated = field.getAnnotation(Enumerated.class);
 					// 设置了value属性
 					if (enumerated.value() == EnumType.ORDINAL) {
-						return (Class<? extends TypeHandler<?>>) EnumOrdinalTypeHandler.class;
+						EnumOrdinalTypeHandler<? extends Enum<?>> typeHandler = new EnumOrdinalTypeHandler(
+								field.getClass());
+						return (Class<? extends TypeHandler<?>>) typeHandler.getClass();
+						// return (Class<? extends TypeHandler<?>>)
+						// EnumOrdinalTypeHandler.class;
 					}
 				}
-				return (Class<? extends TypeHandler<?>>) EnumTypeHandler.class;
+				EnumTypeHandler<? extends Enum<?>> typeHandler = new EnumTypeHandler(field.getClass());
+				return (Class<? extends TypeHandler<?>>) typeHandler.getClass();
+				// return (Class<? extends TypeHandler<?>>)
+				// EnumTypeHandler.class;
 			}
 
 			Class<? extends TypeHandler<?>> typeHandlerClass = null;
