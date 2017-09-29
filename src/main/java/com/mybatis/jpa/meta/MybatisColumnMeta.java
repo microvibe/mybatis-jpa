@@ -110,7 +110,7 @@ public class MybatisColumnMeta {
 			}
 		}
 
-		@SuppressWarnings("unchecked")
+		@SuppressWarnings({ "unchecked", "rawtypes" })
 		public static Class<? extends TypeHandler<?>> resolveTypeHandler(Field field) {
 
 			if (field.getType().isEnum()) {
