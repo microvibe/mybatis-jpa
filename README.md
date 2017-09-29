@@ -1,5 +1,13 @@
 # mybatis-jpa V1.1
 ## 1. mybatis-jpa 集成方式
+### maven dependency
+```xml
+<dependency>
+	<groupId>com.github.littlenewbie</groupId>
+	<artifactId>mybatis-jpa</artifactId>
+	<version>1.1.0</version>
+</dependency>
+```
 ### 1.1 配置文件
 ```xml
 <!-- 在spring-mybatis配置文件中,增加以下配置即可.详见configs/spring-mybatis.xml -->
