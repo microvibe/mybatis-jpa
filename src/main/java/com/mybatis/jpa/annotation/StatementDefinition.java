@@ -13,9 +13,6 @@ import java.lang.annotation.Target;
  * the sql or resultMap,it will be resolved and auto build according to your
  * method sign.so,please definition method with prescribed as follows.</br>
  * 
- * @attation due to Mybatis mapper support at most only one parameter,and we
- *           will not change this rule,so...you know what I mean.
- * 
  * @attation it can only resolve single condition,the condition column must use
  *           fieldName(except primaryKey,because primaryKey will be adapted to
  *           fieldName),and the operate with condition {@see OperateEnum}
