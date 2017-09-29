@@ -22,7 +22,6 @@ import com.mybatis.jpa.statement.builder.StatementBuildable;
  *           1.解析Method,创建并注册Mybatis Statement {@see MappedStatement}
  * 
  * @author svili
- * @data 2017年5月8日
  *
  */
 public class PersistentMapperEnhancer extends BaseBuilder {

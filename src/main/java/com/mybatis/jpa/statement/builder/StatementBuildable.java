@@ -9,7 +9,6 @@ import com.mybatis.jpa.statement.MybatisStatementAdapter;
  * mybatis statement buider 接口
  * 
  * @author svili
- * @data 2017年5月7日
  *
  */
 public interface StatementBuildable {

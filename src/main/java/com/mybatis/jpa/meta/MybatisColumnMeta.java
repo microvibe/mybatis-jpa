@@ -19,7 +19,6 @@ import com.mybatis.jpa.common.PersistentUtil;
  * mybatis column元数据类型
  * 
  * @author svili
- * @data 2017年5月6日
  *
  */
 public class MybatisColumnMeta {

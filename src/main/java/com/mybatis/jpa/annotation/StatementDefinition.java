@@ -22,7 +22,6 @@ import java.lang.annotation.Target;
  *           {@MapperDefinition},otherwise this method can not be resolved.
  * 
  * @author svili
- * @data 2017年5月8日
  *
  */
 @Documented

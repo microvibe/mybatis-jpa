@@ -4,7 +4,6 @@ package com.mybatis.jpa.common;
  * 字符串工具类
  * 
  * @author svili
- * @date 2016年11月8日
  *
  */
 public class ColumnNameUtil {

@@ -13,7 +13,6 @@ import com.mybatis.jpa.type.OperateEnum;
  * SQL解析工具类</br>
  * 
  * @author svili
- * @data 2017年5月8日
  *
  */
 public class SqlAssistant {

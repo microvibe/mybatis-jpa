@@ -19,7 +19,6 @@ import com.mybatis.jpa.annotation.StatementDefinition;
  * 
  * 
  * @author svili
- * @data 2017年5月8日
  *
  * @param <T>持久化Entity类型
  */

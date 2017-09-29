@@ -9,8 +9,7 @@ import javax.persistence.OneToOne;
 /***
  * 关联性字段工具类
  * 
- * @author lishiwei
- * @data 2017年8月10日
+ * @author svili
  *
  */
 public class AssociationUtil {

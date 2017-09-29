@@ -5,7 +5,6 @@ package com.mybatis.jpa.type;
  * 需按照以下常量开头定义methodName,如:updateSelectiveByPrimaryKeyNotNull。
  * 
  * @author svili
- * @data 2017年5月8日
  *
  */
 public class MethodConstants {

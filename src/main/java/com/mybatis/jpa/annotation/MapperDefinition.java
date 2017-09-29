@@ -10,7 +10,6 @@ import java.lang.annotation.Target;
  * 使用该注解标记的Mapper将被加入statement解析队列
  * 
  * @author svili
- * @data 2017年5月8日
  *
  */
 @Documented
