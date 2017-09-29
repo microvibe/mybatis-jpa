@@ -12,7 +12,6 @@ import com.mybatis.jpa.common.PersistentUtil;
  * 持久化元数据类型
  * 
  * @author svili
- * @data 2017年5月6日
  *
  */
 public class PersistentMeta {

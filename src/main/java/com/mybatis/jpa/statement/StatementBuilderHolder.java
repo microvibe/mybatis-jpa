@@ -20,7 +20,6 @@ import com.mybatis.jpa.type.MethodConstants;
  * adapter: {@link #adapted(String)}
  * 
  * @author svili
- * @data 2017年5月8日
  *
  */
 public class StatementBuilderHolder {

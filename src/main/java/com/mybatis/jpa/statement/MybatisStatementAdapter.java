@@ -13,7 +13,6 @@ import org.apache.ibatis.scripting.LanguageDriver;
  * 调用parseStatement()方法,创建/注册statement对象</br>
  * 
  * @author svili
- * @data 2017年5月6日
  *
  */
 public class MybatisStatementAdapter {

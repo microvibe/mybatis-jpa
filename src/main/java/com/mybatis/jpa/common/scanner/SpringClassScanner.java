@@ -21,7 +21,6 @@ import org.springframework.util.SystemPropertyUtils;
  * 2.scan {@link #scan()}
  * 
  * @author svili
- * @data 2017年5月5日
  *
  */
 public class SpringClassScanner {

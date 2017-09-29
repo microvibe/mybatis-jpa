@@ -9,7 +9,6 @@ import org.springframework.core.type.filter.TypeFilter;
  * TypeFilterBuilder
  * 
  * @author svili
- * @data 2017年5月5日
  *
  */
 public class AnnotationTypeFilterBuilder {

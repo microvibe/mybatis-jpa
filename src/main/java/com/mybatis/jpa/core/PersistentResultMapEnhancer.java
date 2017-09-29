@@ -31,7 +31,6 @@ import com.mybatis.jpa.meta.PersistentMeta;
  *           1.解析Entity,创建并注册ResultMap{@see ResultMap};</br>
  * 
  * @author svili
- * @data 2017年5月8日
  *
  */
 public class PersistentResultMapEnhancer extends BaseBuilder {

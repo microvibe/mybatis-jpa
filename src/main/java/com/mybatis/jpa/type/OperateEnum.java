@@ -7,7 +7,6 @@ package com.mybatis.jpa.type;
  * example:selectByPrimaryKey means : where primaryKey = :primaryKey
  * 
  * @author svili
- * @data 2017年5月8日
  *
  */
 public enum OperateEnum {

@@ -25,7 +25,6 @@ import com.mybatis.jpa.common.scanner.SpringClassScanner;
  * execute when an {@code ApplicationContext} gets initialized or refreshed</br>
  * 
  * @author svili
- * @data 2017年5月8日
  *
  */
 public class PersistentEnhancerScaner implements ApplicationListener<ApplicationEvent> {
