@@ -10,15 +10,14 @@
 	<name>myabtis-jpa</name>
 	<description>mybatis jpa plugin</description>
 	<url>https://github.com/LittleNewbie/mybatis-jpa</url>
-	
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<!-- spring版本号 -->
 		<spring.version>4.2.5.RELEASE</spring.version>
 		<!-- mybatis版本号 -->
 		<mybatis.version>3.4.0</mybatis.version>
-
 	</properties>
 
 	<dependencies>
@@ -30,15 +29,7 @@
 			<version>7.0</version>
 			<scope>provided</scope>
 		</dependency>
-
-		<!-- Java持久化规范 -->
-		<dependency>
-			<groupId>javax.persistence</groupId>
-			<artifactId>persistence-api</artifactId>
-			<version>1.0.2</version>
-			<scope>provided</scope>
-		</dependency>
-
+		
 		<!-- spring核心包 -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -75,45 +66,7 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<!-- for test start -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.12</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<version>${spring.version}</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>fastjson</artifactId>
-			<version>1.2.6</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.30</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>druid</artifactId>
-			<version>1.0.26</version>
-			<scope>test</scope>
-		</dependency>
-		<!-- for test end -->
-
 	</dependencies>
-
 
 	<build>
 		<pluginManagement>
@@ -179,7 +132,7 @@
 
 	<developers>
 		<developer>
-			<name>LittleNewbie</name>
+			<name>svili</name>
 			<email>svili@foxmail.com</email>
 		</developer>
 	</developers>
