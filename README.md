@@ -14,11 +14,11 @@
 ```
 ### spring 配置文件
 ```xml
-<!-- 在spring-mybatis配置文件中,增加以下配置即可.详见configs/spring-mybatis.xml -->
+<!-- 在spring-mybatis配置文件中,增加以下配置即可. -->
 <!-- Mybatis JPA Mapper 所在包路径 -->
     <bean class="com.mybatis.jpa.core.PersistentEnhancerScaner">
         <property name="mapperPackage" value="com.svili.mapper" />
-        <property name="entityPackage" value="com.ybg.model" />
+        <property name="entityPackage" value="com.svili.model" />
         <property name="sqlSessionFactory" ref="sqlSessionFactory" />
     </bean>
 ```
