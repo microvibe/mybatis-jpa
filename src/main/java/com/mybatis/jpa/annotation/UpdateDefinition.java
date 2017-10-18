@@ -26,6 +26,8 @@ import java.lang.annotation.Target;
 @Target(METHOD)
 @StatementDefinition
 public @interface UpdateDefinition {
+	
+	Class<?> entity() default void.class;
 
 	boolean selective() default false;
 

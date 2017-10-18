@@ -15,30 +15,23 @@ import org.apache.ibatis.scripting.LanguageDriver;
  * @author svili
  *
  */
-public class MybatisStatementAdapter {
+public class MybatisStatementResolver {
 
 	/** mybatis assistant */
 	private MapperBuilderAssistant assistant;
 
 	private LanguageDriver languageDriver;
 
-	/** 方法名 */
 	private String methodName;
-
-	/** 参数类型 mybatis dao 只能有一个参数,多个参数请使用map封装 */
 	private Class<?> parameterTypeClass;
 
 	/** sql表达式,动态sql需使用<script>标签装饰:<script>dynamicSql</script> */
 	private String sqlScript;
 
-	/** default null */
 	private Integer fetchSize;
-	/** default null */
 	private Integer timeout;
 
-	/** default StatementType.PREPARED */
 	private StatementType statementType;
-	/** default ResultSetType.FORWARD_ONLY */
 	private ResultSetType resultSetType;
 
 	/** insert / update / delete /select */
@@ -49,23 +42,14 @@ public class MybatisStatementAdapter {
 	private String keyProperty;
 	private String keyColumn;
 
-	/** resultMap default : currentNamespace + "." + methodName */
-	String resultMapId;
 	/** 方法返回值类型 */
 	private Class<?> resultType;
+	private String resultMapId;
 
-	protected MybatisStatementAdapter() {
-	}
-
-	public MybatisStatementAdapter(MapperBuilderAssistant assistant) {
+	public MybatisStatementResolver(MapperBuilderAssistant assistant) {
 		this.assistant = assistant;
 
 		/** 初始化默认参数 **/
-		this.initParameters();
-	}
-
-	/** 初始化默认参数 */
-	private void initParameters() {
 		this.languageDriver = assistant.getLanguageDriver(null);
 		// dynamic & has parameters
 		this.statementType = StatementType.PREPARED;
@@ -76,14 +60,14 @@ public class MybatisStatementAdapter {
 	}
 
 	/** 创建mybatis statement,并向configuration中注册 */
-	public final void parseStatement() {
+	public final void resolve() {
 		SqlSource sqlSource = this.buildSqlSource(sqlScript, parameterTypeClass);
 		if (sqlSource != null) {
 
 			// Options options = null;
 			final String mappedStatementId = this.getMappedStatementId();
 
-			boolean isSelect = sqlCommandType == SqlCommandType.SELECT;
+			boolean isSelect = SqlCommandType.SELECT.equals(sqlCommandType);
 			boolean flushCache = !isSelect;
 			boolean useCache = isSelect;
 
@@ -130,85 +114,8 @@ public class MybatisStatementAdapter {
 		return buildSqlSource(sqlScript, parameterTypeClass, this.languageDriver);
 	}
 
-	public static class Builder {
-		private MybatisStatementAdapter adapter = new MybatisStatementAdapter();
-
-		public Builder assistant(MapperBuilderAssistant assistant) {
-			this.adapter.assistant = assistant;
-			return this;
-		}
-
-		public Builder languageDriver(LanguageDriver languageDriver) {
-			this.adapter.languageDriver = languageDriver;
-			return this;
-		}
-
-		public Builder methodName(String methodName) {
-			this.adapter.methodName = methodName;
-			return this;
-		}
-
-		public Builder parameterTypeClass(Class<?> parameterTypeClass) {
-			this.adapter.parameterTypeClass = parameterTypeClass;
-			return this;
-		}
-
-		public Builder sqlScript(String sqlScript) {
-			this.adapter.sqlScript = sqlScript;
-			return this;
-		}
-
-		public Builder fetchSize(Integer fetchSize) {
-			this.adapter.fetchSize = fetchSize;
-			return this;
-		}
-
-		public Builder methodName(Integer timeout) {
-			this.adapter.timeout = timeout;
-			return this;
-		}
-
-		public Builder statementType(StatementType statementType) {
-			this.adapter.statementType = statementType;
-			return this;
-		}
-
-		public Builder sqlCommandType(SqlCommandType sqlCommandType) {
-			this.adapter.sqlCommandType = sqlCommandType;
-			return this;
-		}
-
-		public Builder keyGenerator(KeyGenerator keyGenerator) {
-			this.adapter.keyGenerator = keyGenerator;
-			return this;
-		}
-
-		public Builder keyProperty(String keyProperty) {
-			this.adapter.keyProperty = keyProperty;
-			return this;
-		}
-
-		public Builder keyColumn(String keyColumn) {
-			this.adapter.keyColumn = keyColumn;
-			return this;
-		}
-
-		public Builder resultMapId(String resultMapId) {
-			this.adapter.resultMapId = resultMapId;
-			return this;
-		}
-
-		public Builder resultType(Class<?> resultType) {
-			this.adapter.resultType = resultType;
-			return this;
-		}
-
-		public MybatisStatementAdapter build() {
-			return this.adapter;
-		}
-	}
-
 	// getter and setter
+
 	public MapperBuilderAssistant getAssistant() {
 		return assistant;
 	}

@@ -51,8 +51,8 @@ public class PersistentMeta {
 		// 持久化字段集
 		List<Field> fields = PersistentUtil.getPersistentFields(type);
 		// 初始化集合
-		columnNameCollection = new ArrayList<String>();
-		columnMetaMap = new LinkedHashMap<String, MybatisColumnMeta>();
+		columnNameCollection = new ArrayList<String>(fields.size());
+		columnMetaMap = new LinkedHashMap<String, MybatisColumnMeta>(fields.size());
 		StringBuilder columnNamesTemp = new StringBuilder();
 
 		for (Field field : fields) {

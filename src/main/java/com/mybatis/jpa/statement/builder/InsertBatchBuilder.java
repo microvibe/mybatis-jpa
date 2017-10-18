@@ -5,12 +5,20 @@ import java.lang.reflect.Method;
 import org.apache.ibatis.executor.keygen.NoKeyGenerator;
 import org.apache.ibatis.mapping.SqlCommandType;
 
+import com.mybatis.jpa.annotation.InsertDefinition;
 import com.mybatis.jpa.meta.MybatisColumnMeta;
 import com.mybatis.jpa.meta.PersistentMeta;
 import com.mybatis.jpa.statement.MybatisStatementResolver;
 import com.mybatis.jpa.statement.SqlAssistant;
 
-public class InsertSelectiveBuilder extends AbstractStatementBuilder {
+public class InsertBatchBuilder extends AbstractStatementBuilder {
+
+	public boolean matched(Method method) {
+		if (method.isAnnotationPresent(InsertDefinition.class)) {
+			return !method.getAnnotation(InsertDefinition.class).selective();
+		}
+		return false;
+	}
 
 	@Override
 	public void parseStatementInternal(MybatisStatementResolver resolver, Method method) {
@@ -35,29 +43,19 @@ public class InsertSelectiveBuilder extends AbstractStatementBuilder {
 	}
 
 	@Override
-	protected String buildSqlInternal(Method method, PersistentMeta persistentMeta) {
-		// columns
-		StringBuilder columns = new StringBuilder();
-		columns.append("<trim prefix='(' suffix=')' suffixOverrides=',' > ");
-		// values
+	protected String buildSqlInternal(Method method, final PersistentMeta persistentMeta) {
 		StringBuilder values = new StringBuilder();
-		values.append("<trim prefix='(' suffix=')' suffixOverrides=',' > ");
+
 		for (MybatisColumnMeta columnMeta : persistentMeta.getColumnMetaMap().values()) {
-			// columns
-			columns.append("<if test='" + columnMeta.getProperty() + "!= null'> ");
-			columns.append(columnMeta.getColumnName() + ", ");
-			columns.append("</if> ");
-			// values
-			values.append("<if test='" + columnMeta.getProperty() + "!= null'> ");
-			values.append(SqlAssistant.resolveSqlParameter(columnMeta) + ", ");
-			values.append("</if> ");
+			if (values.length() > 0) {
+				values.append(",");
+			}
+			values.append(SqlAssistant.resolveSqlParameter(columnMeta, "rowData"));
 		}
 
-		columns.append("</trim> ");
-		values.append("</trim> ");
-
-		return "<script>" + "INSERT INTO " + persistentMeta.getTableName() + columns.toString() + " VALUES "
-				+ values.toString() + "</script>";
+		return "<script>" + " INSERT INTO " + persistentMeta.getTableName() + " (" + persistentMeta.getColumnNames()
+				+ " ) " + " VALUES " + "<foreach item='rowData' index='rowIndex' collection='list' separator=','>"
+				+ "( " + values.toString() + " )" + "</foreach>" + "</script>";
 	}
 
 }

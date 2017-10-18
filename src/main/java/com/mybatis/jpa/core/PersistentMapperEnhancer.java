@@ -8,11 +8,8 @@ import org.apache.ibatis.session.Configuration;
 
 import com.mybatis.jpa.annotation.MapperDefinition;
 import com.mybatis.jpa.annotation.StatementDefinition;
-import com.mybatis.jpa.meta.PersistentMeta;
-import com.mybatis.jpa.statement.MybatisStatementAdapter;
-import com.mybatis.jpa.statement.SqlAssistant;
-import com.mybatis.jpa.statement.StatementBuilderHolder;
 import com.mybatis.jpa.statement.builder.StatementBuildable;
+import com.mybatis.jpa.statement.builder.StatementBuilderFactory;
 
 /**
  * Persistent Mapper Enhancer(增强器)</br>
@@ -32,15 +29,6 @@ public class PersistentMapperEnhancer extends BaseBuilder {
 	/** mybatis mapper接口类型 */
 	protected Class<?> mapper;
 
-	/** 持久化Entity类型 */
-	protected Class<?> type;
-
-	/** 持久化Entity元数据 */
-	protected PersistentMeta persistentMeta;
-
-	/** MybatisStatement 适配器 */
-	protected MybatisStatementAdapter adapter;
-
 	/**
 	 * 容器中configuration唯一,必须初始化
 	 * 
@@ -53,17 +41,7 @@ public class PersistentMapperEnhancer extends BaseBuilder {
 		super(configuration);
 		String resource = mapper.getName().replace(".", "/") + ".java (best guess)";
 		this.assistant = new MapperBuilderAssistant(configuration, resource);
-		this.adapter = new MybatisStatementAdapter(assistant);
 		this.mapper = mapper;
-
-		if (mapper.isAnnotationPresent(MapperDefinition.class)) {
-			// 获取注解对象
-			MapperDefinition mapperDefinition = mapper.getAnnotation(MapperDefinition.class);
-			// Entity type
-			this.type = mapperDefinition.domainClass();
-			// Entity元数据
-			this.persistentMeta = new PersistentMeta(type);
-		}
 	}
 
 	/** mapper增强方法入口 */
@@ -91,10 +69,9 @@ public class PersistentMapperEnhancer extends BaseBuilder {
 			 * StatementDefinition</code>
 			 */
 			if (method.isAnnotationPresent(StatementDefinition.class)) {
-				String methodType = SqlAssistant.resolveMethodType(method.getName());
-				StatementBuildable statementBuilder = StatementBuilderHolder.adapted(methodType);
+				StatementBuildable statementBuilder = StatementBuilderFactory.create(method);
 				if (statementBuilder != null) {
-					statementBuilder.parseStatement(adapter, persistentMeta, method);
+					statementBuilder.parseStatement(assistant, method);
 				}
 			}
 		}
