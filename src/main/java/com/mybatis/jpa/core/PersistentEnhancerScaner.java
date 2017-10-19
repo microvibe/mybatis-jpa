@@ -76,16 +76,17 @@ public class PersistentEnhancerScaner implements ApplicationListener<Application
 			// log or throw runTimeExp
 			throw new RuntimeException(e);
 		}
+
 		if (entitySet != null && !entitySet.isEmpty()) {
+			PersistentResultMapEnhancer resultMapEnhancer = new PersistentResultMapEnhancer(configuration);
 			for (Class<?> entity : entitySet) {
 				// resultMap enhance
-				PersistentResultMapEnhancer resultMapEnhancer = new PersistentResultMapEnhancer(configuration, entity);
-				resultMapEnhancer.enhance();
+				resultMapEnhancer.enhance(entity);
 			}
 			// parsePendingMethods(configuration);
 		}
 
-		/** scan **/
+		/** scan mapper **/
 		TypeFilter typeFilter = AnnotationTypeFilterBuilder.build(MapperDefinition.class);
 		SpringClassScanner scanner = new SpringClassScanner.Builder().scanPackage(this.mapperPackage)
 				.typeFilter(typeFilter).build();

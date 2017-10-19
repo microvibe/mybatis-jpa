@@ -5,7 +5,7 @@
 	<groupId>com.github.littlenewbie</groupId>
 	<artifactId>mybatis-jpa</artifactId>
 	<packaging>jar</packaging>
-	<version>1.1.0</version>
+	<version>dev</version>
 
 	<name>myabtis-jpa</name>
 	<description>mybatis jpa plugin</description>

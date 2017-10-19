@@ -14,15 +14,13 @@ public class MethodConstants {
 
 	public static final String INSERT = "insert";
 
-	public static final String BATCH_INSERT = "batchInsert";
+	public static final String INSERT_BATCH = "insertBatch";
 
 	public static final String DELETE = "delete";
 
 	public static final String UPDATE_SELECTIVE = "updateSelective";
 
 	public static final String UPDATE = "update";
-
-	public static final String BATCH_UPDATE = "batchUpdate";
 
 	public static final String SELECT_PAGE = "selectPage";
 

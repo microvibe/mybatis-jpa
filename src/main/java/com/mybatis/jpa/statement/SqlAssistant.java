@@ -22,7 +22,7 @@ public class SqlAssistant {
 
 	/** 解析method的where条件,仅支持单一字段条件,如果没有where语句,返回空字符串"" **/
 	public static String buildSingleCondition(Method method, PersistentMeta persistentMeta) {
-		String methodType = resolveMethodType(method.getName());
+		String methodType = resolveMethodType(method);
 		if (method.getName().equals(methodType)) {
 			return "";
 		}
@@ -46,18 +46,19 @@ public class SqlAssistant {
 	}
 
 	/** 识别{@link MethodConstants}中定义的methodType */
-	public static String resolveMethodType(String methodName) {
+	public static String resolveMethodType(Method method) {
+		String methodName = method.getName();
 		// 注意顺序 insert insertSelective,insert应放在后面判断
+		if (methodName.startsWith(MethodConstants.INSERT_BATCH)) {
+			return MethodConstants.INSERT_BATCH;
+		}
+
 		if (methodName.startsWith(MethodConstants.INSERT_SELECTIVE)) {
 			return MethodConstants.INSERT_SELECTIVE;
 		}
 
 		if (methodName.startsWith(MethodConstants.INSERT)) {
 			return MethodConstants.INSERT;
-		}
-
-		if (methodName.startsWith(MethodConstants.BATCH_INSERT)) {
-			return MethodConstants.BATCH_INSERT;
 		}
 
 		if (methodName.startsWith(MethodConstants.DELETE)) {
@@ -70,10 +71,6 @@ public class SqlAssistant {
 
 		if (methodName.startsWith(MethodConstants.UPDATE)) {
 			return MethodConstants.UPDATE;
-		}
-
-		if (methodName.startsWith(MethodConstants.BATCH_UPDATE)) {
-			return MethodConstants.BATCH_UPDATE;
 		}
 
 		if (methodName.startsWith(MethodConstants.SELECT_PAGE)) {

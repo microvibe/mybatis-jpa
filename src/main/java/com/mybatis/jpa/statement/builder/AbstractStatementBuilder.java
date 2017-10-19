@@ -4,7 +4,7 @@ import java.lang.reflect.Method;
 
 import org.apache.ibatis.builder.MapperBuilderAssistant;
 
-import com.mybatis.jpa.annotation.StatementConfig;
+import com.mybatis.jpa.annotation.MapperDefinition;
 import com.mybatis.jpa.meta.PersistentMeta;
 import com.mybatis.jpa.statement.MybatisStatementResolver;
 
@@ -21,7 +21,7 @@ public abstract class AbstractStatementBuilder implements StatementBuildable, SQ
 	@Override
 	public String buildSql(Method method) {
 		Class<?> mapper = method.getDeclaringClass();
-		Class<?> entityType = mapper.getAnnotation(StatementConfig.class).entity();
+		Class<?> entityType = mapper.getAnnotation(MapperDefinition.class).domainClass();
 		PersistentMeta persistentMeta = new PersistentMeta(entityType);
 		return buildSqlInternal(method, persistentMeta);
 	}

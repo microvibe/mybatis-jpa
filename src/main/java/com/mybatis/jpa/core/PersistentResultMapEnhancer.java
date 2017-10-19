@@ -47,16 +47,35 @@ public class PersistentResultMapEnhancer extends BaseBuilder {
 	/** 持久化Entity元数据 */
 	protected PersistentMeta persistentMeta;
 
-	public PersistentResultMapEnhancer(Configuration configuration, Class<?> type) {
+	public PersistentResultMapEnhancer(Configuration configuration) {
 		super(configuration);
 
 		String resource = ResultMapConstants.DEFAULT_NAMESPACE.replaceAll(".", "/") + ".java (best guess)";
 		this.assistant = new MapperBuilderAssistant(configuration, resource);
-
-		this.type = type;
-		this.persistentMeta = new PersistentMeta(type);
 	}
 
+	public PersistentResultMapEnhancer(Configuration configuration, Class<?> mapper) {
+		this(configuration);
+	}
+
+	public void enhance(Class<?> type) {
+		String resource = "interface " + ResultMapConstants.DEFAULT_NAMESPACE;
+		if (!configuration.isResourceLoaded(resource)) {
+			configuration.addLoadedResource(resource);
+		}
+		assistant.setCurrentNamespace(ResultMapConstants.DEFAULT_NAMESPACE);
+
+		if (!type.isAnnotationPresent(Entity.class)) {
+			return;
+		}
+		PersistentMeta persistentMeta = new PersistentMeta(type);
+
+		// build and register ResultMap;
+		ResultMapAdapter.parseResultMap(assistant, persistentMeta);
+
+	}
+
+	@Deprecated
 	public void enhance() {
 		String resource = "interface " + ResultMapConstants.DEFAULT_NAMESPACE;
 		if (!configuration.isResourceLoaded(resource)) {
